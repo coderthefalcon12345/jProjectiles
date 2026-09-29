@@ -1,7 +1,43 @@
 package math;
 
+/**
+ * Solves 1D constant acceleration problems using standard SUVAT equations.
+ *
+ * The solver repeatedly applies the equations until all five variables have been determined.
+ * Time values must be non-negative.
+ *
+ * The equations are:
+ * <pre>
+ *     v=u+at
+ *     s= 1/2(u+v)t
+ *     v^2 = u^2 + 2as
+ *     s = ut + 1/2at^2
+ * </pre>
+ */
+
 public class ConstantAccelerationSolve {
+
+    /**
+     * Max permitted difference when comparing for consistency.
+     */
     private final double EPSILON = 1e-6;
+
+    /**
+     * Solves a constant acceleration kinematics problem.
+     *
+     * Three SUVAT values must be known.
+     * If > 3 are supplied, consistency check.
+     *
+     * @param input the initial state containing known values.
+     * @return a fully solved {@link ConstantAccelerationState}
+     *
+     * @throws IllegalArgumentException if > 3 variables are provide, t is greater than 0, inconsistency in values
+     * or physically invalid results.
+     *
+     * @throws ArithmeticException if division by zero is required by solution.
+     *
+     * @throws IllegalStateException if all 5 variables can't be determined.
+     */
 
     public ConstantAccelerationState solve(ConstantAccelerationState input) {
         inputValidation(input);
@@ -40,6 +76,18 @@ public class ConstantAccelerationSolve {
         return finalState;
     }
 
+    /**
+     * Validates initial state.
+     * At least three of the five SUVAT variables must be known
+     *
+     * If more than three variables are supplied, the values
+     * are checked against a solution derived from the first three known variables
+     *
+     * @param state state to be validated
+     *
+     * @throws IllegalArgumentException if too few variables, negative time, or inconsistent values.
+     */
+
     private void inputValidation(ConstantAccelerationState state) {
         if (state.countKnowns() < 3) {
             throw new IllegalArgumentException("At least 3 variables must be provided.");
@@ -54,6 +102,17 @@ public class ConstantAccelerationSolve {
 
         }
     }
+
+    /**
+     * Checks whether a state containing more than three known variables is
+     * consistent with the constant-acceleration equations.
+     *
+     * Three of the supplied variables are used to independently derive the complete state.
+     * Every other supplied variable is then compared against its calculated value using EPSILON
+     *
+     * @param input the state whose supplied values should be checked
+     * @throws IllegalArgumentException if the supplied values are inconsistent
+     */
 
     public void isConsistent(ConstantAccelerationState input) {
         ConstantAccelerationState.Builder baseBuild = ConstantAccelerationState.builder();
@@ -85,6 +144,12 @@ public class ConstantAccelerationSolve {
         }
     }
 
+
+    /**
+     * Creates a builder containing a copy of all values from the supplied state.
+     * @param state the state to copy
+     * @return a builder initialized with the state's values.
+     */
     private ConstantAccelerationState.Builder copyToBuilder(ConstantAccelerationState state) {
         return ConstantAccelerationState.builder()
                 .s(state.getS())
@@ -95,6 +160,19 @@ public class ConstantAccelerationSolve {
     }
 
     // v = u + at
+
+    /**
+     * Applies the first SUVAT equation:
+     *
+     * <pre>
+     * v = u + at
+     * </pre>
+     *
+     * <p>Uses the equation to calculate any one of {@code v}, {@code u},
+     * {@code a}, or {@code t} when the other required variables are known.</p>
+     *
+     * @return {@code true} if a variable was calculated, otherwise {@code false}
+     */
     private boolean solveEquation1(ConstantAccelerationState.Builder builder,
                                    Double s, Double u, Double v, Double a, Double t) {
 
@@ -126,6 +204,19 @@ public class ConstantAccelerationSolve {
     }
 
     // s = 1/2(u+v)t
+
+    /**
+     * Applies the second SUVAT equation:
+     *
+     * <pre>
+     * s = 1/2(u + v)t
+     * </pre>
+     *
+     * <p>Uses the equation to calculate any one of {@code s}, {@code u},
+     * {@code v}, or {@code t} when the other required variables are known.</p>
+     *
+     * @return {@code true} if a variable was calculated, otherwise {@code false}
+     */
     private boolean solveEquation2(ConstantAccelerationState.Builder builder,
                                    Double s, Double u, Double v, Double a, Double t) {
         if (s == null && u != null && v != null && t != null) {
@@ -153,6 +244,22 @@ public class ConstantAccelerationSolve {
     }
 
     // v2 = u2 + 2as
+
+    /**
+     * Applies the third SUVAT equation:
+     *
+     * <pre>
+     * v² = u² + 2as
+     * </pre>
+     *
+     * <p>Uses the equation to calculate any one of {@code v}, {@code u},
+     * {@code a}, or {@code s} when the other required variables are known.</p>
+     *
+     * <p>When calculating a velocity from a squared value, the solver must
+     * select an appropriate sign for the resulting velocity.</p>
+     *
+     * @return {@code true} if a variable was calculated, otherwise {@code false}
+     */
     private boolean solveEquation3(ConstantAccelerationState.Builder builder,
                                    Double s, Double u, Double v, Double a, Double t) {
         if (v == null && u != null && a != null && s != null) {
@@ -183,6 +290,23 @@ public class ConstantAccelerationSolve {
     }
 
     // s = ut + 1/2at^2
+
+    /**
+     * Applies the fourth SUVAT equation:
+     *
+     * <pre>
+     * s = ut + 1/2at²
+     * </pre>
+     *
+     * <p>Uses the equation to calculate {@code s}, {@code u}, {@code a}, or
+     * {@code t} when the other required variables are known.</p>
+     *
+     * <p>When calculating time, the equation becomes a quadratic equation.
+     * The solver evaluates the resulting roots and selects a non-negative
+     * solution.</p>
+     *
+     * @return {@code true} if a variable was calculated, otherwise {@code false}
+     */
     private boolean solveEquation4(ConstantAccelerationState.Builder builder,
                                    Double s, Double u, Double v, Double a, Double t) {
         if (s == null && u != null && a != null && t != null) {
@@ -225,3 +349,4 @@ public class ConstantAccelerationSolve {
         return false;
     }
 }
+
