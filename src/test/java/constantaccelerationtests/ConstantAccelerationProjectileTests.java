@@ -1,12 +1,11 @@
-package constantacceleration;
+package constantaccelerationtests;
 
 import math.constantacceleration.ConstantAccelerationProjectileSolve;
 import math.constantacceleration.ConstantAccelerationProjectileState;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ConstantAccelerationTests {
-
+public class ConstantAccelerationProjectileTests {
     private final ConstantAccelerationProjectileSolve solver =
             new ConstantAccelerationProjectileSolve();
 
@@ -85,10 +84,6 @@ public class ConstantAccelerationTests {
                 1e-6
         );
     }
-
-
-
-
-
 }
+
 

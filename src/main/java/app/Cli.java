@@ -4,6 +4,7 @@ import math.constantacceleration.ConstantAccelerationSolve;
 import math.constantacceleration.ConstantAccelerationState;
 import math.constantacceleration.ConstantAccelerationProjectileSolve;
 import math.constantacceleration.ConstantAccelerationProjectileState;
+import math.variableacceleration.VariableAccelerationSolve;
 
 import java.util.Scanner;
 
@@ -37,6 +38,13 @@ public class Cli {
     private final ConstantAccelerationProjectileSolve projectileSolver =
             new ConstantAccelerationProjectileSolve();
 
+    /**
+     * Solver engine for 2D variable acceleration equations, using euler's method.
+     */
+    private final VariableAccelerationSolve variableAccelerationSolver =
+            new VariableAccelerationSolve();
+
+
 
     /**
      * Starts the main application loop, displaying the primary menu and handling user selection.
@@ -53,7 +61,8 @@ public class Cli {
             System.out.println("jProjectiles cli v1.0");
             System.out.println("1. SUVAT (1D)");
             System.out.println("2. Projectile (2D, now with angles)");
-            System.out.println("3. Exit app");
+            System.out.println("3. Variable Acceleration (2D)");
+            System.out.println("4. Exit app");
             System.out.print("Select >> ");
 
             String choice = scanner.nextLine().trim();
@@ -61,7 +70,8 @@ public class Cli {
             switch (choice) {
                 case "1" -> runSuvat();
                 case "2" -> runProjectile();
-                case "3" -> running = false;
+                case "3" -> runVariableAcceleration();
+                case "4" -> running = false;
                 default -> System.out.println("Invalid selection.");
             }
         }
@@ -216,5 +226,110 @@ public class Cli {
         System.out.printf("Final velocity, v: %.4f%n", state.getV());
         System.out.printf("Acceleration, a: %.4f%n", state.getA());
         System.out.printf("Time, t: %.4f%n", state.getT());
+    }
+
+
+
+
+
+
+
+
+    private void runVariableAcceleration() {
+        System.out.println();
+        System.out.println("Variable Acceleration Solver");
+
+        double position = readRequiredDouble("Initial position, x -> ");
+        double velocity = readRequiredDouble("Initial velocity, v -> ");
+        double endTime = readRequiredDouble("End time, t -> ");
+        double dt = readRequiredDouble("Time step, dt -> ");
+
+        System.out.println();
+        System.out.println("Acceleration function:");
+        System.out.println("1. Constant acceleration");
+        System.out.println("2. Acceleration proportional to velocity");
+        System.out.println("3. Acceleration proportional to position");
+        System.out.println("4. Acceleration depending on time");
+        System.out.print("Select >> ");
+
+        String choice = scanner.nextLine().trim();
+
+        math.variableacceleration.AccelerationFunction acceleration;
+
+        switch (choice) {
+            case "1" -> {
+                double value =
+                        readRequiredDouble("Acceleration, a -> ");
+
+                acceleration = (x, v, t) -> value;
+            }
+
+            case "2" -> {
+                double coefficient =
+                        readRequiredDouble("Velocity coefficient -> ");
+
+                acceleration = (x, v, t) -> coefficient * v;
+            }
+
+            case "3" -> {
+                double coefficient =
+                        readRequiredDouble("Position coefficient -> ");
+
+                acceleration = (x, v, t) -> coefficient * x;
+            }
+
+            case "4" -> {
+                double coefficient =
+                        readRequiredDouble("Time coefficient -> ");
+
+                acceleration = (x, v, t) -> coefficient * t;
+            }
+
+            default -> {
+                System.out.println("Invalid acceleration function.");
+                return;
+            }
+        }
+
+        try {
+            math.variableacceleration.VariableAccelerationState initial =
+                    new math.variableacceleration.VariableAccelerationState(
+                            position,
+                            velocity,
+                            0
+                    );
+
+            math.variableacceleration.VariableAccelerationState result =
+                    variableAccelerationSolver.solve(
+                            initial,
+                            endTime,
+                            dt,
+                            acceleration
+                    );
+
+            System.out.println();
+            System.out.println("Result");
+
+            System.out.printf(
+                    "Position: %.4f m%n",
+                    result.getPosition()
+            );
+
+            System.out.printf(
+                    "Velocity: %.4f m/s%n",
+                    result.getVelocity()
+            );
+
+            System.out.printf(
+                    "Time: %.4f s%n",
+                    result.getTime()
+            );
+
+        } catch (IllegalArgumentException | ArithmeticException |
+                 IllegalStateException e) {
+
+            System.out.println();
+            System.out.println("Unable to solve: " + e.getMessage());
+        }
     }
 }
