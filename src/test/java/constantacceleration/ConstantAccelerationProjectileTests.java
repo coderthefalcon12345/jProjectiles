@@ -1,7 +1,7 @@
 package constantacceleration;
 
-import math.ConstantAccelerationProjectileSolve;
-import math.ConstantAccelerationProjectileState;
+import math.constantacceleration.ConstantAccelerationProjectileSolve;
+import math.constantacceleration.ConstantAccelerationProjectileState;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

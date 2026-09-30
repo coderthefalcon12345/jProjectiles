@@ -1,4 +1,4 @@
-package math;
+package math.constantacceleration;
 
 /**
  * Solves 1D constant acceleration problems using standard SUVAT equations.

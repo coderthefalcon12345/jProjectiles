@@ -1,9 +1,9 @@
 package app;
 
-import math.ConstantAccelerationSolve;
-import math.ConstantAccelerationState;
-import math.ConstantAccelerationProjectileSolve;
-import math.ConstantAccelerationProjectileState;
+import math.constantacceleration.ConstantAccelerationSolve;
+import math.constantacceleration.ConstantAccelerationState;
+import math.constantacceleration.ConstantAccelerationProjectileSolve;
+import math.constantacceleration.ConstantAccelerationProjectileState;
 
 import java.util.Scanner;
 

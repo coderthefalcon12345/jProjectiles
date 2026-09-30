@@ -1,4 +1,4 @@
-package math;
+package math.constantacceleration;
 
 /**
  * Represents the state of a projectile moving in two dimensions.

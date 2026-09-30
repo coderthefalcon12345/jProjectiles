@@ -1,4 +1,4 @@
-package math;
+package math.constantacceleration;
 
 /**
  * Solves two-dimensional projectile motion by decomposing the projectile's
