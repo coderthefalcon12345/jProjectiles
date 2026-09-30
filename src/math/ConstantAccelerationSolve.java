@@ -150,13 +150,33 @@ public class ConstantAccelerationSolve {
      * @param state the state to copy
      * @return a builder initialized with the state's values.
      */
-    private ConstantAccelerationState.Builder copyToBuilder(ConstantAccelerationState state) {
-        return ConstantAccelerationState.builder()
-                .s(state.getS())
-                .u(state.getU())
-                .v(state.getV())
-                .a(state.getA())
-                .t(state.getT());
+    private ConstantAccelerationState.Builder copyToBuilder(
+            ConstantAccelerationState state) {
+
+        ConstantAccelerationState.Builder builder =
+                ConstantAccelerationState.builder();
+
+        if (state.getS() != null) {
+            builder.s(state.getS());
+        }
+
+        if (state.getU() != null) {
+            builder.u(state.getU());
+        }
+
+        if (state.getV() != null) {
+            builder.v(state.getV());
+        }
+
+        if (state.getA() != null) {
+            builder.a(state.getA());
+        }
+
+        if (state.getT() != null) {
+            builder.t(state.getT());
+        }
+
+        return builder;
     }
 
     // v = u + at
