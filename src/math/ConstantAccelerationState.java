@@ -1,26 +1,28 @@
 package math;
 
+
+/**
+ * Immutable representation of the five variables used in the SUVAT equations
+ * for constant-acceleration motion.
+ *
+ * <p>The variables are:</p>
+ * <ul>
+ *     <li>{@code s} - displacement</li>
+ *     <li>{@code u} - initial velocity</li>
+ *     <li>{@code v} - final velocity</li>
+ *     <li>{@code a} - constant acceleration</li>
+ *     <li>{@code t} - time</li>
+ * </ul>
+ *
+ * <p>Any variable may be {@code null} to represent an unknown value. A state
+ * containing at least three known variables can be passed to
+ * {@link ConstantAccelerationSolve} to calculate the remaining values.</p>
+ *
+ * <p>Instances are immutable. Use {@link #builder()} to create a state.</p>
+ */
 public final class ConstantAccelerationState {
 
-    /**
-     * Immutable representation of the five variables used in the SUVAT equations
-     * for constant-acceleration motion.
-     *
-     * <p>The variables are:</p>
-     * <ul>
-     *     <li>{@code s} - displacement</li>
-     *     <li>{@code u} - initial velocity</li>
-     *     <li>{@code v} - final velocity</li>
-     *     <li>{@code a} - constant acceleration</li>
-     *     <li>{@code t} - time</li>
-     * </ul>
-     *
-     * <p>Any variable may be {@code null} to represent an unknown value. A state
-     * containing at least three known variables can be passed to
-     * {@link ConstantAccelerationSolve} to calculate the remaining values.</p>
-     *
-     * <p>Instances are immutable. Use {@link #builder()} to create a state.</p>
-     */
+
 
 
     private static final double EPSILON = 1e-6;
