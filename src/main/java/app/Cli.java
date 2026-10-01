@@ -61,7 +61,7 @@ public class Cli {
             System.out.println();
             System.out.println("jProjectiles cli v1.0");
             System.out.println("1. SUVAT (1D)");
-            System.out.println("2. Projectile (2D, now with angles)");
+            System.out.println("2. Projectile (2D)");
             System.out.println("3. Variable Acceleration (2D)");
             System.out.println("4. Simple Linear Equation Solver");
             System.out.println("5. Exit app");
