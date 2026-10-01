@@ -189,6 +189,39 @@ public class VariableAccelerationTests {
     }
 
     @Test
+    void rejectsNonFiniteInputs() {
+        VariableAccelerationState initial =
+                new VariableAccelerationState(
+                        0,
+                        0,
+                        0
+                );
+
+        AccelerationFunction acceleration =
+                (x, v, t) -> 0;
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> solver.solve(
+                        initial,
+                        Double.NaN,
+                        0.01,
+                        acceleration
+                )
+        );
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> solver.solve(
+                        initial,
+                        1,
+                        Double.NaN,
+                        acceleration
+                )
+        );
+    }
+
+    @Test
     void doesNotOvershootEndTime() {
 
         VariableAccelerationState initial =

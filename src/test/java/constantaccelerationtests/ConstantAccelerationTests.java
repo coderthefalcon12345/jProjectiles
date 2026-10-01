@@ -86,9 +86,23 @@ public class ConstantAccelerationTests {
         );
     }
 
+    @Test
+    void rejectsNaNValues() {
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> solver.solve(Double.NaN, 30, 1)
+        );
 
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> solver.solve(20, Double.NaN, 1)
+        );
 
-
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> solver.solve(20, 30, Double.NaN)
+        );
+    }
 
 }
 

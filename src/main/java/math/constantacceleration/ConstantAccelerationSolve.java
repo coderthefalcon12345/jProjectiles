@@ -89,6 +89,16 @@ public class ConstantAccelerationSolve {
      */
 
     private void inputValidation(ConstantAccelerationState state) {
+        if (state == null) {
+            throw new IllegalArgumentException("Input state must not be null.");
+        }
+
+        validateFiniteStateValue("Displacement (s)", state.getS());
+        validateFiniteStateValue("Initial velocity (u)", state.getU());
+        validateFiniteStateValue("Final velocity (v)", state.getV());
+        validateFiniteStateValue("Acceleration (a)", state.getA());
+        validateFiniteStateValue("Time (t)", state.getT());
+
         if (state.countKnowns() < 3) {
             throw new IllegalArgumentException("At least 3 variables must be provided.");
         }
@@ -100,6 +110,12 @@ public class ConstantAccelerationSolve {
         if (state.countKnowns() > 3) {
             isConsistent(state);
 
+        }
+    }
+
+    private void validateFiniteStateValue(String name, Double value) {
+        if (value != null && !Double.isFinite(value)) {
+            throw new IllegalArgumentException(name + " must be finite.");
         }
     }
 

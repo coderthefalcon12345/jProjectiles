@@ -34,9 +34,9 @@ public class ConstantAccelerationProjectileSolve {
      * @param gravity gravitational acceleration in metres per second squared
      */
     public ConstantAccelerationProjectileSolve(double gravity) {
-        if (gravity <= 0) {
+        if (!Double.isFinite(gravity) || gravity <= 0) {
             throw new IllegalArgumentException(
-                    "Gravity must be greater than zero."
+                    "Gravity must be a finite value greater than zero."
             );
         }
 
@@ -67,6 +67,18 @@ public class ConstantAccelerationProjectileSolve {
             double speed,
             double angleDegrees,
             double time) {
+
+        if (!Double.isFinite(speed)) {
+            throw new IllegalArgumentException("Projectile speed must be finite.");
+        }
+
+        if (!Double.isFinite(angleDegrees)) {
+            throw new IllegalArgumentException("Launch angle must be finite.");
+        }
+
+        if (!Double.isFinite(time)) {
+            throw new IllegalArgumentException("Time must be finite.");
+        }
 
         if (speed < 0) {
             throw new IllegalArgumentException(

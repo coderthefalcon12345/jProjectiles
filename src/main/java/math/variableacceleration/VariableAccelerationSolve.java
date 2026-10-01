@@ -44,8 +44,26 @@ public class VariableAccelerationSolve {
             double dt,
             AccelerationFunction accelerationFunction
     ) {
+        if (initial == null) {
+            throw new IllegalArgumentException("Initial state must not be null.");
+        }
+
+        if (accelerationFunction == null) {
+            throw new IllegalArgumentException("Acceleration function must not be null.");
+        }
+
+        if (!Double.isFinite(endTime) || !Double.isFinite(dt)) {
+            throw new IllegalArgumentException("End time and timestep must be finite values.");
+        }
+
         if (dt <= 0) {
             throw new IllegalArgumentException("Time step must > 0");
+        }
+
+        if (!Double.isFinite(initial.getPosition()) ||
+                !Double.isFinite(initial.getVelocity()) ||
+                !Double.isFinite(initial.getTime())) {
+            throw new IllegalArgumentException("Initial state values must be finite.");
         }
 
         if (endTime < initial.getTime()) {
@@ -67,6 +85,9 @@ public class VariableAccelerationSolve {
                             time
                     );
 
+            if (!Double.isFinite(acceleration)) {
+                throw new IllegalArgumentException("Acceleration must be finite.");
+            }
 
             position += velocity * step;
             velocity += acceleration * step;

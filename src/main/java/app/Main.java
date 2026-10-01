@@ -11,8 +11,8 @@ public class Main {
          * @param args command-line arguments (unused)
          */
 
-        PrimaryWindow window = new PrimaryWindow();
-        window.show();
+        //PrimaryWindow window = new PrimaryWindow();
+        //window.show();
 
         Cli commandline = new Cli();
         commandline.run();

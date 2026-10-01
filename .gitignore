@@ -1,39 +1,42 @@
-### Maven / Java build outputs ###
-target/
+# Build output
+/target/
+/build/
+/out/
+/bin/
 *.class
+*.jar
+*.war
+*.ear
 
-### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-.kotlin
+# IDE and editor files
 .idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+*~
 
-### Eclipse ###
-.apt_generated
+# Eclipse / NetBeans / IntelliJ metadata
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### NetBeans ###
-/nbproject/private/
+/nbproject/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
-.vscode/
-
-### Mac OS ###
+# OS files
 .DS_Store
+Thumbs.db
 
-### Logs ###
+# Logs and temporary files
 *.log
+*.tmp
+hs_err_pid*
 

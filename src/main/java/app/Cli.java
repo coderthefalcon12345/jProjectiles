@@ -2,6 +2,7 @@ package app;
 
 import math.constantacceleration.ConstantAccelerationSolve;
 import math.constantacceleration.ConstantAccelerationState;
+import math.general.LinearEquationSolve;
 import math.constantacceleration.ConstantAccelerationProjectileSolve;
 import math.constantacceleration.ConstantAccelerationProjectileState;
 import math.variableacceleration.VariableAccelerationSolve;
@@ -62,7 +63,8 @@ public class Cli {
             System.out.println("1. SUVAT (1D)");
             System.out.println("2. Projectile (2D, now with angles)");
             System.out.println("3. Variable Acceleration (2D)");
-            System.out.println("4. Exit app");
+            System.out.println("4. Simple Linear Equation Solver");
+            System.out.println("5. Exit app");
             System.out.print("Select >> ");
 
             String choice = scanner.nextLine().trim();
@@ -71,7 +73,8 @@ public class Cli {
                 case "1" -> runSuvat();
                 case "2" -> runProjectile();
                 case "3" -> runVariableAcceleration();
-                case "4" -> running = false;
+                case "4" -> runLinearEquationSolver();
+                case "5" -> running = false;
                 default -> System.out.println("Invalid selection.");
             }
         }
@@ -80,7 +83,7 @@ public class Cli {
     }
 
 
-    /**
+	/**
      * Executes the interactive flow for the 1D SUVAT solver.
      * <p>
      * Prompts the user for optional kinematic parameters (displacement, initial velocity,
@@ -331,5 +334,37 @@ public class Cli {
             System.out.println();
             System.out.println("Unable to solve: " + e.getMessage());
         }
+        
     }
+    
+
+    private void runLinearEquationSolver() {
+    	
+    	System.out.println("Enter a linear function in x.");
+    	
+    	while (true) {
+    		System.out.print("> ");
+    		String line = scanner.nextLine().trim();
+    		
+    		if (line.equalsIgnoreCase("quit") ) {
+    			break;
+    		}
+    		
+    		try {
+    			System.out.println(LinearEquationSolve.solve(line));
+    		}     catch (NumberFormatException e) {
+                System.out.println("Couldn't parse that. Input must be wrong.");
+            }
+
+    		
+    		
+    		
+    		
+    	}
+    	
+    	
+	}
+    
+    
+    
 }
